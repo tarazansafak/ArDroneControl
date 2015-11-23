@@ -18,6 +18,11 @@ using AR.Drone.Video;
 using AR.Drone.Avionics;
 using AR.Drone.Avionics.Objectives;
 using AR.Drone.Avionics.Objectives.IntentObtainers;
+using Emgu.CV;
+using Emgu.Util;
+using Emgu.CV.Structure;
+using System.IO;
+using System.Drawing;
 
 namespace AR.Drone.WinApp
 {
@@ -65,9 +70,11 @@ namespace AR.Drone.WinApp
             _videoPacketDecoderWorker.UnhandledException += UnhandledException;
 
             _droneClient.Start();
+
         }
 
-     
+
+
 
         private void UnhandledException(object sender, Exception exception)
         {
@@ -132,6 +139,12 @@ namespace AR.Drone.WinApp
                 _frameBitmap = VideoHelper.CreateBitmap(ref _frame);
             else
                 VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
+
+
+                //Image<Bgr, Byte> My_Image = new Image<Bgr, byte>(_frameBitmap);
+                //Image<Gray, byte> gray_image = My_Image.Convert<Gray, byte>();
+                //pbVideo.Image = gray_image.ToBitmap();
+
 
             pbVideo.Image = _frameBitmap;
             pbVideo.SizeMode = PictureBoxSizeMode.CenterImage;
