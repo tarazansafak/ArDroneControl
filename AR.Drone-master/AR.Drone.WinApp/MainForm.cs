@@ -21,8 +21,7 @@ using AR.Drone.Avionics.Objectives.IntentObtainers;
 using Emgu.CV;
 using Emgu.Util;
 using Emgu.CV.Structure;
-using System.IO;
-using System.Drawing;
+
 
 namespace AR.Drone.WinApp
 {
@@ -49,9 +48,27 @@ namespace AR.Drone.WinApp
         private float flightSensitivityConst = 0.9f;
 
 
+
+
+        Image<Bgr, Byte> currentFrame;
+        Capture grabber;
+        HaarCascade face;
+        Image<Gray, byte> result;
+        Image<Gray, byte> gray = null;
+        int t;
+
+
+
+
         public MainForm()
         {
             InitializeComponent();
+
+            face = new HaarCascade("haarcascade_frontalface_default.xml");
+         //   grabber = new Capture();
+          //  grabber.QueryFrame();
+          //  Application.Idle += new EventHandler(FrameGrabber);
+
             this.WindowState = FormWindowState.Maximized;
 
             _videoPacketDecoderWorker = new VideoPacketDecoderWorker(PixelFormat.BGR24, true, OnVideoPacketDecoded);
@@ -72,8 +89,6 @@ namespace AR.Drone.WinApp
             _droneClient.Start();
 
         }
-
-
 
 
         private void UnhandledException(object sender, Exception exception)
@@ -129,6 +144,38 @@ namespace AR.Drone.WinApp
             _droneClient.Stop();
         }
 
+        //void FrameGrabber(object sender, EventArgs e)
+        //{
+
+
+        //    currentFrame = grabber.QueryFrame().Resize(320, 240, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
+
+        //    gray = currentFrame.Convert<Gray, Byte>();
+
+        //    MCvAvgComp[][] facesDetected = gray.DetectHaarCascade(
+        //    face,
+        //    1.2,
+        //    10,
+        //    Emgu.CV.CvEnum.HAAR_DETECTION_TYPE.DO_CANNY_PRUNING,
+        //    new Size(20, 20));
+
+        //    Action for each element detected
+        //    foreach (MCvAvgComp f in facesDetected[0])
+        //    {
+        //        t = t + 1;
+        //        result = currentFrame.Copy(f.rect).Convert<Gray, byte>().Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
+        //        currentFrame.Draw(f.rect, new Bgr(Color.Red), 2);
+        //    }
+        //    t = 0;
+
+
+        //    imageBoxFrameGrabber.SizeMode = PictureBoxSizeMode.CenterImage;
+        //    imageBoxFrameGrabber.Image = currentFrame;
+
+
+
+        //}
+
         private void tmrVideoUpdate_Tick(object sender, EventArgs e)
         {
             if (_frame == null || _frameNumber == _frame.Number)
@@ -141,12 +188,29 @@ namespace AR.Drone.WinApp
                 VideoHelper.UpdateBitmap(ref _frameBitmap, ref _frame);
 
 
-                //Image<Bgr, Byte> My_Image = new Image<Bgr, byte>(_frameBitmap);
-                //Image<Gray, byte> gray_image = My_Image.Convert<Gray, byte>();
-                //pbVideo.Image = gray_image.ToBitmap();
+                Image<Bgr, Byte> My_Image = new Image<Bgr, byte>(_frameBitmap);
+                gray = My_Image.Convert<Gray, byte>();
+                                     
 
+                MCvAvgComp[][] facesDetected = gray.DetectHaarCascade(
+                face,
+                1.2,
+                10,
+                Emgu.CV.CvEnum.HAAR_DETECTION_TYPE.DO_CANNY_PRUNING,
+                new Size(20, 20));
 
+                //Action for each element detected
+                foreach (MCvAvgComp f in facesDetected[0])
+                {
+                    t = t + 1;
+                    result = My_Image.Copy(f.rect).Convert<Gray, byte>().Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
+                    My_Image.Draw(f.rect, new Bgr(Color.Red), 2);
+                }
+                t = 0;
+
+            imageBoxFrameGrabber.Image = My_Image;
             pbVideo.Image = _frameBitmap;
+            imageBoxFrameGrabber.SizeMode = PictureBoxSizeMode.CenterImage;
             pbVideo.SizeMode = PictureBoxSizeMode.CenterImage;
         }
 

@@ -38,18 +38,21 @@
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.imageBoxFrameGrabber = new Emgu.CV.UI.ImageBox();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbVideo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).BeginInit();
             this.SuspendLayout();
             // 
             // pbVideo
             // 
             this.pbVideo.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pbVideo.Location = new System.Drawing.Point(13, 50);
+            this.pbVideo.Location = new System.Drawing.Point(1365, 792);
             this.pbVideo.Margin = new System.Windows.Forms.Padding(4);
             this.pbVideo.Name = "pbVideo";
-            this.pbVideo.Size = new System.Drawing.Size(1344, 653);
+            this.pbVideo.Size = new System.Drawing.Size(206, 135);
             this.pbVideo.TabIndex = 2;
             this.pbVideo.TabStop = false;
             // 
@@ -122,11 +125,26 @@
             this.pictureBox2.TabIndex = 27;
             this.pictureBox2.TabStop = false;
             // 
+            // imageBoxFrameGrabber
+            // 
+            this.imageBoxFrameGrabber.Location = new System.Drawing.Point(12, 12);
+            this.imageBoxFrameGrabber.Name = "imageBoxFrameGrabber";
+            this.imageBoxFrameGrabber.Size = new System.Drawing.Size(1346, 691);
+            this.imageBoxFrameGrabber.TabIndex = 2;
+            this.imageBoxFrameGrabber.TabStop = false;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1794, 939);
+            this.Controls.Add(this.imageBoxFrameGrabber);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pbVideo);
             this.Controls.Add(this.pictureBox1);
@@ -143,6 +161,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbVideo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -158,6 +177,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private Emgu.CV.UI.ImageBox imageBoxFrameGrabber;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 
